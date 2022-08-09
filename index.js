@@ -2,6 +2,7 @@ const express = require('express');
 const Joi = require('joi')
 const app = express();
 const rutasUsers = require('./routes/gestoRouts')
+const rutasDocent = require('./routes/rutasDocents')
 
 const helmet = require('helmet')
 const morgan = require('morgan')
@@ -99,22 +100,10 @@ const docentes = [
 app.get("/", rutasUsers)
 
 app.get("/api/usuarios", rutasUsers)
-
-app.get("/api/docentes", (req, res) => {
-    res.send(docentes);
-})
-
-app.get("/api/docentes/:id", (req, res) => {
-    let idDocente = parseInt(req.params.id);
-    const elDocente = docentes.find((user) => {
-        return user.id === idDocente
-    });
-    if (!elDocente) {
-        res.status(404).send("No se ha encontrado el Docente con ese id")
-    } else {
-        res.send(elDocente)
-    }
-})
+//! Endpoint docentes
+app.get("/api/docentes", rutasDocent)
+//! Endpoint  por id docentes
+app.get("/api/docentes/:id", rutasDocent)
 
 app.get("/api/usuario/:id", rutasUsers)
 
